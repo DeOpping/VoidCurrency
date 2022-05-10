@@ -98,12 +98,3 @@ public class Core extends JavaPlugin {
     public CommandManager getCommandManager() { return commandManager; }
 
 }
-
-
-// CURRENT ISSUES:
-//   Command Aliases
-
-//   /voidcurrency doesn't recognize an online player
-
-//   EventJoin -> Line 37 ->
-//     return value of "dev.paracausal.voidcurrency.utilities.storage.StorageManager.getUsername(String)" is null
