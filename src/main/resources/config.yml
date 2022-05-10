@@ -1,0 +1,30 @@
+# VoidCurrency
+# Developed by Mantice
+
+debug-mode: true
+
+# Create aliases for the main plugin command!
+# Requires server restart!
+aliases:
+  - voidcurrencies
+  - vc
+  - currency
+  - currencies
+
+storage:
+  # SQLite or MySQL
+  # Requires server restart to change storage settings!
+  type: SQLite
+  mysql:
+    host: 0.0.0.0
+    port: 3306
+    database: voidcurrency
+    username: username
+    password: password
+    pool: 10
+
+modules:
+  # Enable/disable /balance or /pay!
+  # Requires restart!
+  balance: true
+  pay: true

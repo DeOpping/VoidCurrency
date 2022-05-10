@@ -1,4 +1,4 @@
-package dev.paracausal.voidcurrency.utilities.storage.sqliteold;
+package dev.paracausal.voidcurrency.utilities.storage.sqlite;
 
 import dev.paracausal.voidcurrency.Core;
 import dev.paracausal.voidcurrency.utilities.CurrencyManager;
@@ -63,8 +63,15 @@ public class SQLite extends SQLiteDatabase {
         try {
             Statement statement = connection.createStatement();
 
+            String playerTable = "CREATE TABLE IF NOT EXISTS players (" +
+                    "`UUID` varchar(36) NOT NULL," +
+                    "`Username` varchar(16) NOT NULL," +
+                    "PRIMARY KEY (`UUID`)" +
+                    ");";
+            statement.execute(playerTable);
+
             for (String string : currencyManager.getCurrencies()) {
-                String create = "CREATE TABLE IF NOT EXISTS " + currencyManager.getCurrency(string, "name") + " (" +
+                String create = "CREATE TABLE IF NOT EXISTS " + string + " (" +
                         "`UUID` varchar(36) NOT NULL," +
                         "`Amount` varchar(36)," +
                         "PRIMARY KEY (`UUID`)" +

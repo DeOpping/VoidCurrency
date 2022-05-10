@@ -1,6 +1,7 @@
-package dev.paracausal.voidcurrency.utilities.storage.sqliteold;
+package dev.paracausal.voidcurrency.utilities.storage.sqlite;
 
 import dev.paracausal.voidcurrency.Core;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,121 +34,99 @@ public abstract class SQLiteDatabase {
         }
     }
 
-    public boolean exists(String table, String row) {
+    /**
+     * Check if a value exists!
+     * @param table SQLite table
+     * @param column SQLite column
+     * @param value Value you're checking for!
+     * @example exists("players", "UUID", player.getUniqueId().toString()); This will return true if the player's UUID is in the column
+     * @return boolean
+     */
+    public boolean exists(String table, String column, String value) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet;
+
         try {
             conn = getSQLConnection();
-            preparedStatement = conn.prepareStatement("SELECT EXISTS(SELECT 1 FROM " + table + " WHERE UUID = " + row + ");");
 
+            preparedStatement = conn.prepareStatement("SELECT EXISTS (SELECT 1 FROM `" + table + "` WHERE `" + column + "`=\"" + value + "\");");
             resultSet = preparedStatement.executeQuery();
             return resultSet.equals("1");
-        } catch (SQLException ex) {
-            core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionExecute(), ex);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 if (preparedStatement != null)
                     preparedStatement.close();
                 if (conn != null)
                     conn.close();
-            } catch (SQLException ex) {
-                core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionClose(), ex);
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
         }
+
         return false;
     }
 
-    public String get(String table, String row, String column) {
+    /**
+     * Get a value from a row in a table
+     * @param table SQLite table
+     * @param column SQLite column
+     * @param row SQLite row
+     * @param value The value the row should equal
+     * @example get("players", "UUID", "Username", "Mantice"); this will return the UUID of "Mantice"
+     * @return String
+     */
+    public String get(String table, String column, String row, String value) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet;
+
         try {
             conn = getSQLConnection();
-            preparedStatement = conn.prepareStatement("SELECT * FROM " + table + " WHERE UUID = '" + row + "';");
 
+            preparedStatement = conn.prepareStatement("SELECT `" + column + "` FROM `" + table + "` WHERE `" + row + "`=\"" + value + "\";");
             resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-                if (resultSet.getString("UUID").equalsIgnoreCase(row)) {
-                    return resultSet.getString(column);
-                }
+                if (resultSet.getString(row).equalsIgnoreCase(value))
+                    return resultSet.getString(value);
             }
-        } catch (SQLException ex) {
-            core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionExecute(), ex);
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 if (preparedStatement != null)
                     preparedStatement.close();
                 if (conn != null)
                     conn.close();
-            } catch (SQLException ex) {
-                core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionClose(), ex);
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
         }
         return null;
     }
 
-    public void set(String table, String row, String column, String value) {
+    /**
+     * Set a column's value for a player!
+     * @param table SQLite table
+     * @param uuid Bukkit player UUID
+     * @param column SQLite column
+     * @param value The new value you're setting
+     * @example set("players", player, "Username", "Mantice"); This will set "Mantice" in the Username column where the UUID column = Mantice's UUID
+     */
+    public void set(String table, String uuid, String column, String value) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
+
         try {
             conn = getSQLConnection();
-            preparedStatement = conn.prepareStatement("REPLACE INTO " + table + "(UUID," + column + ") VALUES(?,?)");
+            preparedStatement = conn.prepareStatement("REPLACE INTO `" + table + "` (`UUID`,`" + column + "`) VALUES (?,?)");
 
-            preparedStatement.setString(1, row);
+            preparedStatement.setString(1, uuid);
             preparedStatement.setString(2, value);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException ex) {
-            core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionExecute(), ex);
-        } finally {
-            try {
-
-                if (preparedStatement != null)
-                    preparedStatement.close();
-
-                if (conn != null)
-                    conn.close();
-
-            } catch (SQLException ex) {
-                core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionClose(), ex);
-            }
-        }
-    }
-
-    public void update(String table, String row, String column, String value) {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            conn = getSQLConnection();
-            preparedStatement = conn.prepareStatement("UPDATE " + table + " SET " + column + " = \"" + value + "\" WHERE UUID = \"" + row + "\"");
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException ex) {
-            core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionExecute(), ex);
-        } finally {
-            try {
-
-                if (preparedStatement != null)
-                    preparedStatement.close();
-
-                if (conn != null)
-                    conn.close();
-
-            } catch (SQLException ex) {
-                core.getLogger().log(Level.SEVERE, SQLiteErrors.sqlConnectionClose(), ex);
-            }
-        }
-    }
-
-    public void replaceAll(String table, String column, String replace, String replacement) {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            conn = getSQLConnection();
-            preparedStatement = conn.prepareStatement("UPDATE " + table + " SET " + column + " = \"" + replacement + "\" WHERE " + column + " = \"" + replace + "\";");
 
             preparedStatement.executeUpdate();
 

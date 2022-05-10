@@ -1,0 +1,41 @@
+# VoidCurrency
+# Developed by Mantice
+
+# MiniMessage help:
+# https://docs.adventure.kyori.net/minimessage/format.html
+
+# Multiple lines for each message supported (except for the prefix)!
+# Example:
+# no-permission:
+#   - '<red>You don''t have permission for this!'
+#   - '<red>Contact staff if you think you should!'
+
+prefix: "<bold><blue>VC <dark_gray>|<reset>"
+
+no-permission: "{PREFIX} <red>No permission!"
+
+invalid-player: "{PREFIX} <red>Invalid player!"
+
+invalid-currency: "{PREFIX} {CURRENCY} <red>is not defined!"
+
+invalid-number: "{PREFIX} <red>Invalid amount!"
+
+syntax: "{PREFIX} <red>Syntax: <set/add/give/take/remove> <currency> <player> <amount> (true/false) (-s)"
+
+give: "{PREFIX} <green>You gave <white>{PLAYER} <green>{AMOUNT}x {CURRENCY}!"
+take: "{PREFIX} <green>You took {AMOUNT}x {CURRENCY} from <white>{PLAYER}<green>!"
+set: "{PREFIX} <green>You set <white>{PLAYER}'s <green>{CURRENCY} to {AMOUNT}!"
+
+given: "{PREFIX} <green>+ {AMOUNT}x {CURRENCY}"
+taken: "{PREFIX} <red>- {AMOUNT}x {CURRENCY}"
+set-to: "{PREFIX} <green>{CURRENCY} set to {AMOUNT}"
+
+balance:
+  self:
+    - "<bold>Balance:"
+    - "<dark_gray>| <reset>Money: <green>$%vault_eco_balance_fixed%"
+    - "<dark_gray>| <reset>Tokens: <yellow>%voidcurrency_balance_token_fixed%"
+  other:
+    - "<bold>{PLAYER}'s Balance:"
+    - "<dark_gray>| <reset>Money: <green>$%vault_eco_balance_fixed%"
+    - "<dark_gray>| <reset>Tokens: <yellow>%voidcurrency_balance_token_fixed%"

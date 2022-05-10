@@ -1,0 +1,18 @@
+# VoidCurrency
+# Developed by Mantice
+
+# Set any maximum or minimum to 'none' to disable it!
+# Java limitations still apply to maximum and minimum amounts!
+
+currencies:
+  'tokens':
+    name: Tokens
+    symbol: "⛀"
+    balance:
+      starting: 100
+      minimum: none
+      maximum: none
+    pay:
+      minimum: 0.1
+      maximum: none
+      allow-decimals: true

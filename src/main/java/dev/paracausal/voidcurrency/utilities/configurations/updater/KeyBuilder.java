@@ -1,4 +1,4 @@
-package dev.paracausal.voidprivatemines.utilities.configurations.updater;
+package dev.paracausal.voidcurrency.utilities.configurations.updater;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

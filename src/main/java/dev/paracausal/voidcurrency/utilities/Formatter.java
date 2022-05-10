@@ -1,7 +1,7 @@
-package dev.paracausal.voidprivatemines.utilities;
+package dev.paracausal.voidcurrency.utilities;
 
-import dev.paracausal.voidprivatemines.Core;
-import dev.paracausal.voidprivatemines.utilities.configurations.ConfigManager;
+import dev.paracausal.voidcurrency.Core;
+import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -22,48 +22,6 @@ public class Formatter {
     public Formatter(Core core) {
         this.core = core;
         this.messagesYml = core.getMessagesYml();
-    }
-
-    public String formatLegacy(String string) {
-        if (core.getVersion() >= 16) {
-            Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-            Matcher matcher = pattern.matcher(string);
-            while (matcher.find()) {
-                String hexCode = string.substring(matcher.start(), matcher.end());
-                String replaceSharp = hexCode.replace('#', 'x');
-
-                char[] chars = replaceSharp.toCharArray();
-                StringBuilder stringBuilder = new StringBuilder();
-
-                for (char c : chars) {
-                    stringBuilder.append("&").append(c);
-                }
-
-                string = string.replace(hexCode, stringBuilder.toString());
-                matcher = pattern.matcher(string);
-            }
-        }
-
-        return ChatColor.translateAlternateColorCodes('&', string);
-    }
-
-    public String formatLegacy(String string, Player player) {
-        string = string.replace("{VERSION}", core.getDescription().getVersion());
-        string = PlaceholderAPI.setPlaceholders(player, string);
-        return this.formatLegacy(string);
-    }
-
-    public List<String> formatLegacy(List<String> list, Player player) {
-        List<String> newList = new ArrayList<>();
-
-        for (String string : list) {
-            string = string.replace("{VERSION}", core.getDescription().getVersion());
-            string = PlaceholderAPI.setPlaceholders(player, string);
-            string = this.formatLegacy(string);
-            newList.add(string);
-        }
-
-        return newList;
     }
 
     public Component format(String string) {
@@ -88,20 +46,18 @@ public class Formatter {
         Audience audience = (Audience) player;
 
         if (value instanceof String) {
-            String message = PlaceholderAPI.setPlaceholders(player, value.toString());
-            audience.sendMessage(this.format(message));
+            audience.sendMessage(this.format(value.toString(), player));
             return;
         }
 
         for (String message : messagesYml.getConfig().getStringList(location)) {
-            message = PlaceholderAPI.setPlaceholders(player, message);
-            audience.sendMessage(this.format(message));
+            audience.sendMessage(this.format(message, player));
         }
     }
 
     public void sendString(Player player, String string) {
         Audience audience = (Audience) player;
-        audience.sendMessage(this.format(string));
+        audience.sendMessage(this.format(string, player));
     }
 
 }

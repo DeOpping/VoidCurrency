@@ -1,4 +1,4 @@
-package dev.paracausal.voidcurrency.utilities.storage.sqliteold;
+package dev.paracausal.voidcurrency.utilities.storage.sqlite;
 
 import dev.paracausal.voidcurrency.Core;
 

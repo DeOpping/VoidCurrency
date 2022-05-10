@@ -1,7 +1,7 @@
-package dev.deopping.mysqltest.database;
+package dev.paracausal.voidcurrency.utilities.storage.mysql;
 
-import dev.deopping.mysqltest.Core;
-import dev.deopping.mysqltest.configurations.ConfigManager;
+import dev.paracausal.voidcurrency.Core;
+import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;

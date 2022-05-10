@@ -1,19 +1,42 @@
 plugins {
     id 'java'
+    id 'kr.entree.spigradle' version '2.3.4'
 }
 
 group 'dev.paracausal'
 version '1.0-SNAPSHOT'
 
 repositories {
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'}
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.14-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.1'
+    implementation "net.kyori:adventure-text-minimessage:4.10.1"
 }
 
-test {
-    useJUnitPlatform()
+spigot {
+    main = 'dev.paracausal.voidcurrency.Core'
+    authors = ['Mantice']
+    softDepends = ['PlaceholderAPI']
+    apiVersion = '1.13'
+    commands {
+        voidcurrency {
+            description = 'Main plugin command!'
+        }
+    }
 }

@@ -1,7 +1,7 @@
-package dev.paracausal.voidprivatemines.utilities.configurations;
+package dev.paracausal.voidcurrency.utilities.configurations;
 
-import dev.paracausal.voidprivatemines.Core;
-import dev.paracausal.voidprivatemines.utilities.configurations.updater.ConfigUpdater;
+import dev.paracausal.voidcurrency.Core;
+import dev.paracausal.voidcurrency.utilities.configurations.updater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
