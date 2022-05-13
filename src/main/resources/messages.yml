@@ -22,7 +22,7 @@ help:
   - "<dark_gray>| <reset>/vc set <player> <currency> <amount> (-r -s)"
   - "<dark_gray>| <reset>/vc <give/add> <player> <currency> <amount> (-r -s)"
   - "<dark_gray>| <reset>/vc <take/remove> <player> <currency> <amount> (-r -s)"
-  - "Need any additional help? <blue><hover:SHOW_TEXT:Support Discord><click:OPEN_URL:https://discord.paracausal.dev>Click here!</click></hover>"
+  - "Need any additional help? <blue><hover:show_text:Click to join the support Discord!><click:OPEN_URL:https://discord.paracausal.dev>Click here!</click></hover>"
 
 reload: "{PREFIX} <green>Configuration reloaded!"
 

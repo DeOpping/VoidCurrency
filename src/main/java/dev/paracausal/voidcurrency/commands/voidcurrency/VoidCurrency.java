@@ -68,16 +68,28 @@ public class VoidCurrency implements CommandExecutor {
 
                 if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove"))
                     core.getLogger().info("Please select a player!");
+
+                return true;
             }
 
-            if (args.length == 2 && ((args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove"))))
+            if (args.length == 2 && ((args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove")))) {
                 core.getLogger().info("Please select a currency!");
+                return true;
+            }
 
-            if (args.length == 3 && (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove")))
+            if (args.length == 3 && (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove"))) {
                 core.getLogger().info("Please select an amount!");
+                return true;
+            }
 
             if (args.length > 3 && ((args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove")))) {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+
+                if (!target.hasPlayedBefore()) {
+                    core.getLogger().info("Invalid player!");
+                    return true;
+                }
+
                 String currency = args[2];
                 BigDecimal amount;
 
@@ -88,8 +100,13 @@ public class VoidCurrency implements CommandExecutor {
                     return true;
                 }
 
-                boolean restrict = (args[4].equalsIgnoreCase("-r") || args[5].equalsIgnoreCase("-r"));
-                boolean silent = (args[4].equalsIgnoreCase("-s") || args[5].equalsIgnoreCase("-s"));
+                boolean restrict = true;
+                boolean silent = false;
+
+                if (args.length == 5 || args.length == 6) {
+                    if (args[4].equalsIgnoreCase("-r") || args[5].equalsIgnoreCase("-r")) restrict = false;
+                    silent = (args[4].equalsIgnoreCase("-s") || args[5].equalsIgnoreCase("-s"));
+                }
 
                 if (args[0].equalsIgnoreCase("set"))
                     vcSet.set(target, currency, amount, restrict, silent);
@@ -116,16 +133,28 @@ public class VoidCurrency implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove"))
                 formatter.sendMessage(player, "select-player");
+
+            return true;
         }
 
-        if (args.length == 2 && ((args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove"))))
+        if (args.length == 2 && ((args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove")))) {
             formatter.sendMessage(player, "select-currency");
+            return true;
+        }
 
-        if (args.length == 3 && (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove")))
+        if (args.length == 3 && (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove"))) {
             formatter.sendMessage(player, "select-amount");
+            return true;
+        }
 
         if (args.length > 3 && ((args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("take") || args[0].equalsIgnoreCase("remove")))) {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+
+            if (!target.hasPlayedBefore()) {
+                formatter.sendMessage(player, "invalid-player");
+                return true;
+            }
+
             String currency = args[2];
             BigDecimal amount;
 
@@ -136,8 +165,13 @@ public class VoidCurrency implements CommandExecutor {
                 return true;
             }
 
-            boolean restrict = (args[4].equalsIgnoreCase("-r") || args[5].equalsIgnoreCase("-r"));
-            boolean silent = (args[4].equalsIgnoreCase("-s") || args[5].equalsIgnoreCase("-s"));
+            boolean restrict = true;
+            boolean silent = false;
+
+            if (args.length == 5 || args.length == 6) {
+                if (args[4].equalsIgnoreCase("-r") || args[5].equalsIgnoreCase("-r")) restrict = false;
+                silent = (args[4].equalsIgnoreCase("-s") || args[5].equalsIgnoreCase("-s"));
+            }
 
             if (args[0].equalsIgnoreCase("set"))
                 vcSet.set(player, target, currency, amount, restrict, silent);

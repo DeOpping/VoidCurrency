@@ -23,7 +23,7 @@ public class VCInfo {
     }
 
     public void info(Player player) {
-        formatter.sendString(player, "<bold><blue>VoidCurrency <reset>v" + core.getDescription().getVersion() + "<newline>Developed by Mantice");
+        formatter.sendString(player, "<hover:show_text:Click to join the support Discord!><click:OPEN_URL:https://discord.paracausal.dev><bold><blue>VoidCurrency <reset>v" + core.getDescription().getVersion() + "<newline>Developed by Mantice</click></hover>");
     }
 
 }
