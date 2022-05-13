@@ -6,22 +6,21 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.math.BigDecimal;
 
 public class Formatter {
 
     Core core;
     ConfigManager messagesYml;
+    CurrencyManager currencyManager;
 
     public Formatter(Core core) {
         this.core = core;
         this.messagesYml = core.getMessagesYml();
+        this.currencyManager = core.getCurrencyManager();
     }
 
     public Component format(String string) {
@@ -52,6 +51,31 @@ public class Formatter {
 
         for (String message : messagesYml.getConfig().getStringList(location)) {
             audience.sendMessage(this.format(message, player));
+        }
+    }
+
+    public void notify(Player player, String location, String currency, BigDecimal amount, OfflinePlayer target) {
+
+        Object value = messagesYml.getConfig().get(location);
+        Audience audience = (Audience) player;
+
+        if (value instanceof String) {
+            audience.sendMessage(this.format(value.toString().replace("{CURRENCY}", currency)
+                    .replace("{AMOUNT}", String.valueOf(amount))
+                    .replace("{CURRENCY_NAME}", currencyManager.getCurrency(currency, "name"))
+                    .replace("{CURRENCY_SYMBOL}", currencyManager.getCurrency(currency, "symbol"))
+                    .replace("{CURRENCY_COLOR}", currencyManager.getCurrency(currency, "color"))
+                    .replace("{PLAYER}", target.getName()), player));
+            return;
+        }
+
+        for (String message : messagesYml.getConfig().getStringList(location)) {
+            audience.sendMessage(this.format(message.replace("{CURRENCY}", currency)
+                    .replace("{AMOUNT}", String.valueOf(amount))
+                    .replace("{CURRENCY_NAME}", currencyManager.getCurrency(currency, "name"))
+                    .replace("{CURRENCY_SYMBOL}", currencyManager.getCurrency(currency, "symbol"))
+                    .replace("{CURRENCY_COLOR}", currencyManager.getCurrency(currency, "color"))
+                    .replace("{PLAYER}", target.getName()), player));
         }
     }
 

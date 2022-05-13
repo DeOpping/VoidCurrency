@@ -1,13 +1,14 @@
 # VoidCurrency
 # Developed by Mantice
 
-admin: voidcurrency.admin
-reload: voidcurrency.admin.reload
+info: voidcurrency.info
+help: voidcurrency.help
+reload: voidcurrency.reload
 
 # Use {CURRENCY} in the permission to allow per-currency permissions!
-give: voidcurrency.admin.give
-take: voidcurrency.admin.take
-set: voidcurrency.admin.set
+set: voidcurrency.set
+give: voidcurrency.give
+take: voidcurrency.take
 
 balance: voidcurrency.balance
 balance-other: voidcurrency.balance.other

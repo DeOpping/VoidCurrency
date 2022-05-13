@@ -14,21 +14,35 @@ prefix: "<bold><blue>VC <dark_gray>|<reset>"
 
 no-permission: "{PREFIX} <red>No permission!"
 
+help:
+  - "<bold><blue>VoidCurrency <reset>Commands:"
+  - "<dark_gray>| <reset>/vc <dark_gray>- <gray>Shows plugin information!"
+  - "<dark_gray>| <reset>/vc help <dark_gray>- <gray>Shows this information!"
+  - "<dark_gray>| <reset>/vc reload <dark_gray>- <gray>Reloads configuration files!"
+  - "<dark_gray>| <reset>/vc set <player> <currency> <amount> (-r -s)"
+  - "<dark_gray>| <reset>/vc <give/add> <player> <currency> <amount> (-r -s)"
+  - "<dark_gray>| <reset>/vc <take/remove> <player> <currency> <amount> (-r -s)"
+  - "Need any additional help? <blue><hover:SHOW_TEXT:Support Discord><click:OPEN_URL:https://discord.paracausal.dev>Click here!</click></hover>"
+
+reload: "{PREFIX} <green>Configuration reloaded!"
+
+select-player: "{PREFIX} <red>Select a player!"
+select-currency: "{PREFIX} <red>Select a currency!"
+select-amount: "{PREFIX} <red>Select an amount!"
+
 invalid-player: "{PREFIX} <red>Invalid player!"
-
 invalid-currency: "{PREFIX} {CURRENCY} <red>is not defined!"
+invalid-amount: "{PREFIX} <red>Invalid amount!"
 
-invalid-number: "{PREFIX} <red>Invalid amount!"
+# Placeholders:
+# {CURRENCY}, {CURRENCY_NAME}, {CURRENCY_SYMBOL}, {CURRENCY_COLOR}, {AMOUNT}, {PLAYER}
+give: "{PREFIX} <green>You gave <white>{PLAYER} <green>{AMOUNT}x {CURRENCY_NAME}!"
+take: "{PREFIX} <green>You took {AMOUNT}x {CURRENCY_NAME} from <white>{PLAYER}<green>!"
+set: "{PREFIX} <green>You set <white>{PLAYER}'s <green>{CURRENCY_NAME} to {AMOUNT}!"
 
-syntax: "{PREFIX} <red>Syntax: <set/add/give/take/remove> <currency> <player> <amount> (true/false) (-s)"
-
-give: "{PREFIX} <green>You gave <white>{PLAYER} <green>{AMOUNT}x {CURRENCY}!"
-take: "{PREFIX} <green>You took {AMOUNT}x {CURRENCY} from <white>{PLAYER}<green>!"
-set: "{PREFIX} <green>You set <white>{PLAYER}'s <green>{CURRENCY} to {AMOUNT}!"
-
-given: "{PREFIX} <green>+ {AMOUNT}x {CURRENCY}"
-taken: "{PREFIX} <red>- {AMOUNT}x {CURRENCY}"
-set-to: "{PREFIX} <green>{CURRENCY} set to {AMOUNT}"
+given: "{PREFIX} <green>+ {AMOUNT}x {CURRENCY_NAME}"
+taken: "{PREFIX} <red>- {AMOUNT}x {CURRENCY_NAME}"
+set-to: "{PREFIX} <green>{CURRENCY_NAME} set to {AMOUNT}"
 
 balance:
   self:

@@ -25,7 +25,7 @@ public abstract class SQLiteDatabase {
     public void initialize() {
         connection = getSQLConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE UUID = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM connection WHERE UUID = ?");
             ResultSet resultSet = preparedStatement.executeQuery();
             close(preparedStatement, resultSet);
 
@@ -39,7 +39,7 @@ public abstract class SQLiteDatabase {
      * @param table SQLite table
      * @param column SQLite column
      * @param value Value you're checking for!
-     * @example exists("players", "UUID", player.getUniqueId().toString()); This will return true if the player's UUID is in the column
+     * @example exists("tokens", "UUID", player.getUniqueId().toString()); This will return true if the player's UUID is in the column
      * @return boolean
      */
     public boolean exists(String table, String column, String value) {
@@ -50,7 +50,7 @@ public abstract class SQLiteDatabase {
         try {
             conn = getSQLConnection();
 
-            preparedStatement = conn.prepareStatement("SELECT EXISTS (SELECT 1 FROM `" + table + "` WHERE `" + column + "`=\"" + value + "\");");
+            preparedStatement = conn.prepareStatement("SELECT EXISTS (SELECT 1 FROM `" + table + "` WHERE `" + column + "`='" + value + "');");
             resultSet = preparedStatement.executeQuery();
             return resultSet.equals("1");
         } catch (SQLException exception) {
@@ -75,7 +75,7 @@ public abstract class SQLiteDatabase {
      * @param column SQLite column
      * @param row SQLite row
      * @param value The value the row should equal
-     * @example get("players", "UUID", "Username", "Mantice"); this will return the UUID of "Mantice"
+     * @example get("tokens", "UUID", "Amount", uuid); this will return the amount of tokens the user has
      * @return String
      */
     public String get(String table, String column, String row, String value) {
@@ -85,8 +85,7 @@ public abstract class SQLiteDatabase {
 
         try {
             conn = getSQLConnection();
-
-            preparedStatement = conn.prepareStatement("SELECT `" + column + "` FROM `" + table + "` WHERE `" + row + "`=\"" + value + "\";");
+            preparedStatement = conn.prepareStatement("SELECT `" + column +"` FROM `" + table + "` WHERE `" + row + "`='" + value +"';");
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -115,7 +114,7 @@ public abstract class SQLiteDatabase {
      * @param uuid Bukkit player UUID
      * @param column SQLite column
      * @param value The new value you're setting
-     * @example set("players", player, "Username", "Mantice"); This will set "Mantice" in the Username column where the UUID column = Mantice's UUID
+     * @example set("tokens", uuid, "Amount", "100"); This will set the player's token balance to 100
      */
     public void set(String table, String uuid, String column, String value) {
         Connection conn = null;

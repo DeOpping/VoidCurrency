@@ -15,7 +15,7 @@ public class Debugger {
 
     public void debug(String string) {
         if (configYml.getConfig().getBoolean("debug-mode"))
-            core.getServer().getLogger().info(string);
+            core.getServer().getLogger().info("[VoidCurrency] " + string);
     }
 
 }

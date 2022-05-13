@@ -63,17 +63,17 @@ public class SQLite extends SQLiteDatabase {
         try {
             Statement statement = connection.createStatement();
 
-            String playerTable = "CREATE TABLE IF NOT EXISTS players (" +
-                    "`UUID` varchar(36) NOT NULL," +
-                    "`Username` varchar(16) NOT NULL," +
+            String createConnection = "CREATE TABLE IF NOT EXISTS connection (" +
+                    "`UUID` varchar(36)," +
                     "PRIMARY KEY (`UUID`)" +
                     ");";
-            statement.execute(playerTable);
+
+            statement.executeUpdate(createConnection);
 
             for (String string : currencyManager.getCurrencies()) {
                 String create = "CREATE TABLE IF NOT EXISTS " + string + " (" +
                         "`UUID` varchar(36) NOT NULL," +
-                        "`Amount` varchar(36)," +
+                        "`Amount` varchar(128)," +
                         "PRIMARY KEY (`UUID`)" +
                         ");";
 

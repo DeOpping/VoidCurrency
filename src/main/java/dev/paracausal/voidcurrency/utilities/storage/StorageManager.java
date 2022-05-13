@@ -52,8 +52,8 @@ public class StorageManager {
             return;
         }
 
-        if (sqlite.exists("players", "UUID", player.getUniqueId().toString())) return;
-        sqlite.executeStatement("INSERT INTO \"players\" (`UUID`, `Username`) VALUES (\"" + player.getUniqueId() + "\", \"" + player.getName() + "\");");
+        if (sqlite.exists("players", "UUID", player.getUniqueId().toString().replace("-", ""))) return;
+        sqlite.executeStatement("INSERT INTO \"players\" (`UUID`) VALUES (\"" + player.getUniqueId().toString().replace("-", "") + "\");");
     }
 
     /**
@@ -67,23 +67,8 @@ public class StorageManager {
             return null;
         }
 
-        if (!sqlite.exists("players", "Username", username)) return null;
+//        if (!sqlite.exists("players", "Username", username)) return null;
         return sqlite.get("players", "UUID", "Username", username);
-    }
-
-    /**
-     * Get a player's Username from the "players" table!
-     * @param uuid Player's UUID
-     * @return String
-     */
-    public String getUsername(String uuid) {
-        if (storage.equalsIgnoreCase("mysql")) {
-
-            return null;
-        }
-
-        if (!sqlite.exists("players", "UUID", uuid)) return null;
-        return sqlite.get("players", "Username", "UUID", uuid);
     }
 
     /**

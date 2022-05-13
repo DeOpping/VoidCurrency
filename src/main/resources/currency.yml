@@ -1,18 +1,19 @@
 # VoidCurrency
 # Developed by Mantice
 
-# Set any maximum or minimum to 'none' to disable it!
-# Java limitations still apply to maximum and minimum amounts!
+# Balance and Pay settings only work if those modules are enabled!
 
 currencies:
   'tokens':
     name: Tokens
     symbol: "⛀"
+    color: "<gold>"
+    # Set any balance setting to 'none' to disable it!
     balance:
       starting: 100
       minimum: none
       maximum: none
+    # Set any pay setting to 'none' to disable it!
     pay:
       minimum: 0.1
       maximum: none
-      allow-decimals: true

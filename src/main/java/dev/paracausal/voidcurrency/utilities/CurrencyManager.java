@@ -4,6 +4,7 @@ import dev.paracausal.voidcurrency.Core;
 import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import dev.paracausal.voidcurrency.utilities.storage.StorageManager;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,29 +41,26 @@ public class CurrencyManager {
         return currencyYml.getConfig().getString("currencies." + id + "." + value);
     }
 
-    private boolean isRestriction(String id, String restriction) {
-        if ((restriction.equalsIgnoreCase("maximum")) && (!this.getCurrency(id, "balance.maximum").equalsIgnoreCase("none"))) return true;
+    public boolean restricted(String id, String type, BigDecimal checked) {
+        String setting = this.getCurrency(id, "balance." + type);
 
-        if ((restriction.equalsIgnoreCase("minimum")) && (!this.getCurrency(id, "balance.minimum").equalsIgnoreCase("none"))) return true;
+        BigDecimal amount = null;
+
+        if (!setting.equalsIgnoreCase("none")) {
+            try {
+                amount = BigDecimal.valueOf(Double.parseDouble(setting));
+            } catch (NumberFormatException exception) {
+                core.getLogger().info("A balance minimum or maximum amount for " + id + " is not a number!");
+            }
+        }
+
+        if (type.equalsIgnoreCase("maximum"))
+            return (amount.compareTo(checked) > 0);
+
+        if (type.equalsIgnoreCase("minimum"))
+            return (amount.compareTo(checked) < 0);
 
         return false;
-    }
-
-    /**
-     * Checks if an amount is above or below the currency's maximum or minimum amount!
-     * @param id Currency ID
-     * @param amount Amount to check
-     * @example restricted(id, 100); This will return null if it is not above or below the max/min, or it will return "maximum" or "minimum" depending on which it violates
-     * @return string
-     */
-    public String restricted(String id, double amount) {
-        if (this.isRestriction(id, "maximum") && (amount > Double.parseDouble(this.getCurrency(id, "balance.maximum"))))
-            return "maximum";
-
-        if (this.isRestriction(id, "minimum") && (amount > Double.parseDouble(this.getCurrency(id, "balance.maximum"))))
-            return "minimum";
-
-        return null;
     }
 
 }

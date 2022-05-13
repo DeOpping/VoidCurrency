@@ -9,7 +9,6 @@ import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import dev.paracausal.voidcurrency.utilities.listeners.EventJoin;
 import dev.paracausal.voidcurrency.utilities.storage.StorageManager;
 import dev.paracausal.voidcurrency.utilities.storage.sqlite.SQLite;
-import me.clip.placeholderapi.libs.kyori.adventure.Adventure;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Core extends JavaPlugin {

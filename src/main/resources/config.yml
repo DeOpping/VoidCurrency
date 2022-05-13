@@ -3,14 +3,6 @@
 
 debug-mode: true
 
-# Create aliases for the main plugin command!
-# Requires server restart!
-aliases:
-  - voidcurrencies
-  - vc
-  - currency
-  - currencies
-
 storage:
   # SQLite or MySQL
   # Requires server restart to change storage settings!
@@ -24,7 +16,7 @@ storage:
     pool: 10
 
 modules:
-  # Enable/disable /balance or /pay!
+  # Enable/disable certain aspects of the plugin!
   # Requires restart!
   balance: true
   pay: true
