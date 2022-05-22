@@ -4,6 +4,7 @@ import dev.paracausal.voidcurrency.Core;
 import dev.paracausal.voidcurrency.utilities.Debugger;
 import dev.paracausal.voidcurrency.utilities.Formatter;
 import dev.paracausal.voidcurrency.utilities.PermissionManager;
+import dev.paracausal.voidcurrency.utilities.storage.StorageManager;
 import org.bukkit.entity.Player;
 
 public class VCReload {
@@ -11,12 +12,14 @@ public class VCReload {
     Core core;
     Formatter formatter;
     PermissionManager permissionManager;
+    StorageManager storageManager;
     Debugger debugger;
 
     public VCReload(Core core) {
         this.core = core;
         this.formatter = core.getFormatter();
         this.permissionManager = core.getPermissionManager();
+        this.storageManager = core.getStorageManager();
         this.debugger = core.getDebugger();
     }
 
@@ -40,6 +43,10 @@ public class VCReload {
         core.getCurrencyYml().saveDefaultConfig();
         core.getCurrencyYml().reloadConfig();
         debugger.debug("Reloaded currencies.yml!");
+
+        debugger.debug("Refreshing database tables...");
+        storageManager.refreshCurrencyTables();
+        debugger.debug("Database tables refreshed!");
     }
 
     public void reload(Player player) {

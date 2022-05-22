@@ -24,7 +24,7 @@ public class SQLite extends SQLiteDatabase {
 
     public Connection getSQLConnection() {
         File dataFolder = new File(core.getDataFolder(), dbname + ".db");
-        if (!dataFolder.exists()){
+        if (!dataFolder.exists()) {
             try {
                 dataFolder.createNewFile();
             } catch (IOException e) {
@@ -32,14 +32,14 @@ public class SQLite extends SQLiteDatabase {
             }
         }
         try {
-            if(connection != null && !connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 return connection;
             }
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
             return connection;
         } catch (SQLException ex) {
-            core.getLogger().log(Level.SEVERE,"SQLite exception on initialize", ex);
+            core.getLogger().log(Level.SEVERE, "SQLite exception on initialize", ex);
         } catch (ClassNotFoundException ex) {
             core.getLogger().log(Level.SEVERE, "You need the SQLite JBDC library. Google it. Put it in /lib folder.");
         }

@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public abstract class SQLiteDatabase {
@@ -35,41 +37,6 @@ public abstract class SQLiteDatabase {
     }
 
     /**
-     * Check if a value exists!
-     * @param table SQLite table
-     * @param column SQLite column
-     * @param value Value you're checking for!
-     * @example exists("tokens", "UUID", player.getUniqueId().toString()); This will return true if the player's UUID is in the column
-     * @return boolean
-     */
-    public boolean exists(String table, String column, String value) {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet;
-
-        try {
-            conn = getSQLConnection();
-
-            preparedStatement = conn.prepareStatement("SELECT EXISTS (SELECT 1 FROM `" + table + "` WHERE `" + column + "`='" + value + "');");
-            resultSet = preparedStatement.executeQuery();
-            return resultSet.equals("1");
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null)
-                    preparedStatement.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Get a value from a row in a table
      * @param table SQLite table
      * @param column SQLite column
@@ -85,13 +52,46 @@ public abstract class SQLiteDatabase {
 
         try {
             conn = getSQLConnection();
-            preparedStatement = conn.prepareStatement("SELECT `" + column +"` FROM `" + table + "` WHERE `" + row + "`='" + value +"';");
+            preparedStatement = conn.prepareStatement("SELECT * FROM `" + table + "` WHERE `" + row + "`='" + value +"';");
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 if (resultSet.getString(row).equalsIgnoreCase(value))
-                    return resultSet.getString(value);
+                    return resultSet.getString(column);
             }
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getTables() {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet;
+
+        List<String> tables = new ArrayList<>();
+
+        try {
+            conn = getSQLConnection();
+            preparedStatement = conn.prepareStatement("SELECT name FROM sqlite_schema WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY 1;");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                tables.add(resultSet.getString("name"));
+            }
+
+            return tables;
 
         } catch (SQLException exception) {
             exception.printStackTrace();

@@ -30,9 +30,12 @@ public class EventJoin implements Listener {
         Player player = event.getPlayer();
 
         for (String currency : currencyManager.getCurrencies()) {
-            if ((!currencyManager.getCurrency(currency, "balance.starting").equals("0") || !currencyManager.getCurrency(currency, "balance.starting").equalsIgnoreCase("none")) && (!storageManager.exists(currency, "UUID", player.getUniqueId().toString()))) {
-                storageManager.set(currency, player.getUniqueId().toString(), "Amount", currencyManager.getCurrency(currency, "balance.starting"));
-                debugger.debug("Set " + player.getName() + "'s starting balance for " + currency + "! (" + currencyManager.getCurrency(currency, "balance.starting") + ")");
+            String starting = currencyManager.getCurrency(currency, "balance.starting");
+
+            if (!starting.equals("0") && (!starting.equalsIgnoreCase("none"))) {
+                if (storageManager.exists(currency, "Amount", "UUID", player.getUniqueId().toString())) return;
+                storageManager.set(currency, player.getUniqueId().toString(), "Amount", starting);
+                debugger.debug("Set " + player.getName() + "'s starting balance for " + currency + " to " + starting + "!");
             }
         }
     }

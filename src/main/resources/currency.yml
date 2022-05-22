@@ -1,13 +1,18 @@
 # VoidCurrency
 # Developed by Mantice
 
-# Balance and Pay settings only work if those modules are enabled!
+# For /pay command
+vault-aliases:
+  - money
 
+# Balance and Pay settings only work if those modules are enabled!
 currencies:
   'tokens':
     name: Tokens
     symbol: "⛀"
-    color: "<gold>"
+    # Color has to be legacy until PlaceholderAPI v3
+    # HEX codes still supported, but in this format: '#123456'
+    color: "&6"
     # Set any balance setting to 'none' to disable it!
     balance:
       starting: 100
@@ -15,5 +20,26 @@ currencies:
       maximum: none
     # Set any pay setting to 'none' to disable it!
     pay:
+      # To allow different currency names in /pay
+      # /pay <player> <currency/alias> <amount>
+      aliases:
+        - token
+      # Require people to confirm their payment?
+      confirm: true
       minimum: 0.1
+      maximum: none
+  # For easy copying:
+  'mana':
+    name: Mana
+    symbol: "M"
+    color: "&b"
+    balance:
+      starting: 100
+      minimum: none
+      maximum: none
+    pay:
+      aliases:
+        - magic
+      confirm: true
+      minimum: 0
       maximum: none

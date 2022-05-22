@@ -168,9 +168,14 @@ public class VoidCurrency implements CommandExecutor {
             boolean restrict = true;
             boolean silent = false;
 
-            if (args.length == 5 || args.length == 6) {
-                if (args[4].equalsIgnoreCase("-r") || args[5].equalsIgnoreCase("-r")) restrict = false;
-                silent = (args[4].equalsIgnoreCase("-s") || args[5].equalsIgnoreCase("-s"));
+            if (args.length == 5) {
+                silent = (args[4].equalsIgnoreCase("-s"));
+                if (args[4].equalsIgnoreCase("-r")) restrict = false;
+            }
+
+            if (args.length == 6) {
+                silent = (args[5].equalsIgnoreCase("-s"));
+                if (args[5].equalsIgnoreCase("-r")) restrict = false;
             }
 
             if (args[0].equalsIgnoreCase("set"))

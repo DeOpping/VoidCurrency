@@ -3,6 +3,7 @@ package dev.paracausal.voidcurrency.utilities;
 import dev.paracausal.voidcurrency.Core;
 import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import dev.paracausal.voidcurrency.utilities.storage.StorageManager;
+import org.bukkit.OfflinePlayer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class CurrencyManager {
     }
 
     public boolean restricted(String id, String type, BigDecimal checked) {
-        String setting = this.getCurrency(id, "balance." + type);
+        String setting = this.getCurrency(id, "balance." + type.toLowerCase());
 
         BigDecimal amount = null;
 
@@ -52,15 +53,30 @@ public class CurrencyManager {
             } catch (NumberFormatException exception) {
                 core.getLogger().info("A balance minimum or maximum amount for " + id + " is not a number!");
             }
+        } else {
+            return false;
         }
 
         if (type.equalsIgnoreCase("maximum"))
-            return (amount.compareTo(checked) > 0);
+            return (checked.compareTo(amount) > 0);
 
         if (type.equalsIgnoreCase("minimum"))
-            return (amount.compareTo(checked) < 0);
+            return (checked.compareTo(amount) < 0);
 
         return false;
+    }
+
+    public BigDecimal getBalance(String uuid, String currency) {
+        BigDecimal start;
+        String starting = this.getCurrency(currency, "balance.starting");
+        if (starting.equalsIgnoreCase("none") || starting.equals("0") || starting.equals("0.0")) {
+            start = BigDecimal.valueOf(0);
+        } else {
+            start = BigDecimal.valueOf(Double.parseDouble(starting));
+        }
+
+        if (!storageManager.exists(currency, "Amount", "UUID", uuid)) return start;
+        return BigDecimal.valueOf(Double.parseDouble(storageManager.get(currency, "Amount", "UUID", uuid)));
     }
 
 }

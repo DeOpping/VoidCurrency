@@ -1,6 +1,7 @@
 package dev.paracausal.voidcurrency.commands;
 
 import dev.paracausal.voidcurrency.Core;
+import dev.paracausal.voidcurrency.commands.balance.Balance;
 import dev.paracausal.voidcurrency.commands.voidcurrency.VoidCurrency;
 import dev.paracausal.voidcurrency.commands.voidcurrency.modules.*;
 import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
@@ -26,6 +27,11 @@ public class CommandManager {
 
         this.voidCurrency = new VoidCurrency(core);
         core.getServer().getPluginCommand("voidcurrency").setExecutor(voidCurrency);
+
+        this.balance = new Balance(core);
+        if (configYml.getConfig().getBoolean("modules.balance")) {
+            core.getServer().getPluginCommand("balance").setExecutor(balance);
+        }
     }
 
     private VoidCurrency voidCurrency;
@@ -48,5 +54,8 @@ public class CommandManager {
 
     private VCRemove vcRemove;
     public VCRemove getVcRemove() { return vcRemove; }
+
+    private Balance balance;
+    public Balance getBalance() { return balance; }
 
 }

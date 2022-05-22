@@ -1,14 +1,12 @@
 package dev.paracausal.voidcurrency;
 
 import dev.paracausal.voidcurrency.commands.CommandManager;
-import dev.paracausal.voidcurrency.utilities.CurrencyManager;
-import dev.paracausal.voidcurrency.utilities.Debugger;
-import dev.paracausal.voidcurrency.utilities.Formatter;
-import dev.paracausal.voidcurrency.utilities.PermissionManager;
+import dev.paracausal.voidcurrency.utilities.*;
 import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import dev.paracausal.voidcurrency.utilities.listeners.EventJoin;
 import dev.paracausal.voidcurrency.utilities.storage.StorageManager;
 import dev.paracausal.voidcurrency.utilities.storage.sqlite.SQLite;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Core extends JavaPlugin {
@@ -44,12 +42,16 @@ public class Core extends JavaPlugin {
 
     }
 
+    public boolean placeholderAPI = false;
+
     @Override
     public void onEnable() {
         this.formatter = new Formatter(this);
         this.permissionManager = new PermissionManager(this);
 
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new Placeholders(this).register();
+            this.placeholderAPI = true;
             debugger.debug("PlaceholderAPI hook enabled!");
         }
 
@@ -64,6 +66,12 @@ public class Core extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info("VoidCurrency disabled!");
+    }
+
+    public Integer getVersion() {
+        String base = Bukkit.getServer().getBukkitVersion();
+        String[] value = base.split("[.]");
+        return Integer.parseInt(value[1]);
     }
 
     private SQLite sqlite;

@@ -4,9 +4,17 @@
 debug-mode: true
 
 storage:
-  # SQLite or MySQL
-  # Requires server restart to change storage settings!
+  # Storage type:
+  # 'SQLite' or 'MySQL'
+  # Requires server restart to change storage type!
   type: SQLite
+  # Table purging:
+  # If true, any currencies removed from currencies.yml will have their table deleted from the database!
+  # This is to clear clutter and keep storage use low!
+  # Set to false if you want to keep old currency data!
+  purge-tables: true
+  # Settings for MySQL databases
+  # Changes requires a server restart!
   mysql:
     host: 0.0.0.0
     port: 3306

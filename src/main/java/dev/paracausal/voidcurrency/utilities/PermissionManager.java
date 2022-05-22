@@ -25,14 +25,18 @@ public class PermissionManager {
     }
 
     public boolean hasPermission(Player player, String location, String currency) {
-        if (location.equalsIgnoreCase("admin") || location.equalsIgnoreCase("reload"))
-            return this.hasPermission(player, location);
-
         String permission = permissionsYml.getConfig().getString(location);
 
         if (permission == null || permission.equalsIgnoreCase("")) return true;
 
+        if (!permission.contains("{CURRENCY}") || location.equalsIgnoreCase("info") || location.equalsIgnoreCase("help") || location.equalsIgnoreCase("reload"))
+            return this.hasPermission(player, location);
+
         return player.hasPermission(permission.replace("{CURRENCY}", currency));
+    }
+
+    public String getPermission(String location) {
+        return permissionsYml.getConfig().getString(location);
     }
 
 }

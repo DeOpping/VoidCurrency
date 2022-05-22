@@ -7,6 +7,8 @@ import dev.paracausal.voidcurrency.utilities.configurations.ConfigManager;
 import dev.paracausal.voidcurrency.utilities.storage.sqlite.SQLite;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class StorageManager {
 
     Core core;
@@ -33,42 +35,13 @@ public class StorageManager {
         sqlite.load();
     }
 
-    public boolean exists(String table, String column, String value) {
+    public boolean exists(String table, String column, String row, String value) {
         if (storage.equals("mysql")) {
 
             return false;
         }
 
-        return sqlite.exists(table, column, value);
-    }
-
-    /**
-     * Adds a player to the "players" table!
-     * @param player Bukkit player
-     */
-    public void addPlayer(Player player) {
-        if (storage.equalsIgnoreCase("mysql")) {
-
-            return;
-        }
-
-        if (sqlite.exists("players", "UUID", player.getUniqueId().toString().replace("-", ""))) return;
-        sqlite.executeStatement("INSERT INTO \"players\" (`UUID`) VALUES (\"" + player.getUniqueId().toString().replace("-", "") + "\");");
-    }
-
-    /**
-     * Get a player's UUID from the "players" table!
-     * @param username Player's username
-     * @return String
-     */
-    public String getUUID(String username) {
-        if (storage.equalsIgnoreCase("mysql")) {
-
-            return null;
-        }
-
-//        if (!sqlite.exists("players", "Username", username)) return null;
-        return sqlite.get("players", "UUID", "Username", username);
+        return sqlite.get(table, column, row, value) != null;
     }
 
     /**
@@ -99,6 +72,41 @@ public class StorageManager {
      */
     public String get(String table, String column, String row, String value) {
         return sqlite.get(table, column, row, value);
+    }
+
+    public void refreshCurrencyTables() {
+        boolean purge = configYml.getConfig().getBoolean("storage.purge-tables");
+
+        if (storage.equalsIgnoreCase("mysql")) {
+            return;
+        }
+
+        List<String> currencies = currencyManager.getCurrencies();
+        List<String> tables = sqlite.getTables();
+        tables.remove("connection");
+
+        if (purge) {
+            for (String table : tables) {
+                if (!currencies.contains(table)) {
+                    sqlite.executeStatement("DROP TABLE " + table);
+                    debugger.debug("Purged " + table + " table!");
+                }
+            }
+        }
+
+        for (String currency : currencies) {
+            if (!tables.contains(currency)) {
+
+                String create = "CREATE TABLE IF NOT EXISTS " + currency + " (" +
+                        "`UUID` varchar(36) NOT NULL," +
+                        "`Amount` varchar(128)," +
+                        "PRIMARY KEY (`UUID`)" +
+                        ");";
+
+                sqlite.executeStatement(create);
+                debugger.debug("Created " + currency + " table!");
+            }
+        }
     }
 
 }

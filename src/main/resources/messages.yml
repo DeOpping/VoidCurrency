@@ -48,8 +48,20 @@ balance:
   self:
     - "<bold>Balance:"
     - "<dark_gray>| <reset>Money: <green>$%vault_eco_balance_fixed%"
-    - "<dark_gray>| <reset>Tokens: <yellow>%voidcurrency_balance_token_fixed%"
+    - "<dark_gray>| <reset>Tokens: <yellow>%voidcurrency_symbol_tokens%%voidcurrency_balance_tokens%"
   other:
     - "<bold>{PLAYER}'s Balance:"
     - "<dark_gray>| <reset>Money: <green>$%vault_eco_balance_fixed%"
-    - "<dark_gray>| <reset>Tokens: <yellow>%voidcurrency_balance_token_fixed%"
+    - "<dark_gray>| <reset>Tokens: <yellow>%voidcurrency_symbol_tokens%%voidcurrency_balance_tokens%"
+
+pay:
+  confirm: "{PREFIX} <red>Please confirm this transaction by typing: <white>{COMMAND}<red>!"
+  yourself: "{PREFIX} <red>You cannot pay yourself!"
+  not-accepting: "{PREFIX} {PLAYER} <red>is not accepting payments at this time!"
+  not-enough: "{PREFIX} <red>You don't have enough for this!"
+  too-little: "{PREFIX} <red>You can't pay below <white>{MINIMUM}!"
+  success: "{PREFIX} <green>You sent <white>{AMOUNT}x {CURRENCY} <green>to <white>{PLAYER}<green>!"
+
+pay-toggle:
+  on: "{PREFIX} <green>You are now accepting payments!"
+  off: "{PREFIX} <gray>You are no longer accepting payments!"

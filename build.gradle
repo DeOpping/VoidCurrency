@@ -27,6 +27,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.14-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.11.1'
     implementation "net.kyori:adventure-text-minimessage:4.10.1"
+    implementation "net.kyori:adventure-text-serializer-legacy:4.10.1"
 }
 
 bukkit {
@@ -38,6 +39,17 @@ bukkit {
         voidcurrency {
             aliases = ['voidcurrencies', 'vc', 'currency', 'currencies']
             description = 'Main plugin command!'
+        }
+        balance {
+            aliases = ['bal']
+            description = 'View your balance!'
+        }
+        pay {
+            description = 'Pay a player!'
+        }
+        paytoggle {
+            aliases = ['togglepay']
+            description = 'Toggle the ability to receive payments from /pay!'
         }
     }
 }
